@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import { Sun, Moon, Menu, X, Calendar, Users, Briefcase, Settings, BarChart2, Bell, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Home from './pages/Home';
+import Bookings from './pages/Bookings';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -101,14 +102,15 @@ function App() {
                 
                 <nav className="p-4 space-y-1">
                   {navItems.map((item) => (
-                    <a 
+                    <Link 
                       key={item.name}
-                      href={item.path}
+                      to={item.path}
                       className="flex items-center gap-3 px-3 py-2 rounded-lg text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700 transition-colors"
+                      onClick={toggleSidebar}
                     >
                       {item.icon}
                       <span>{item.name}</span>
-                    </a>
+                    </Link>
                   ))}
                 </nav>
                 
@@ -127,18 +129,18 @@ function App() {
         <aside className="hidden lg:block w-64 bg-white dark:bg-surface-800 border-r border-surface-200 dark:border-surface-700 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
           <nav className="p-4 space-y-1">
             {navItems.map((item) => (
-              <a 
+              <Link 
                 key={item.name}
-                href={item.path}
+                to={item.path}
                 className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
-                  item.path === "/" 
+                  location.pathname === item.path
                     ? "bg-primary/10 text-primary dark:bg-primary/20" 
                     : "text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
                 }`}
               >
                 {item.icon}
                 <span>{item.name}</span>
-              </a>
+              </Link>
             ))}
           </nav>
           
@@ -154,6 +156,7 @@ function App() {
         <main className="flex-1 p-4 lg:p-6">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/bookings" element={<Bookings />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
