@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Sun, Moon, Menu, X, Calendar, Users, Briefcase, Settings, BarChart2, Bell, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Home from './pages/Home';
@@ -13,6 +13,7 @@ function App() {
   });
   
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
   
   useEffect(() => {
     if (darkMode) {
@@ -105,7 +106,11 @@ function App() {
                     <Link 
                       key={item.name}
                       to={item.path}
-                      className="flex items-center gap-3 px-3 py-2 rounded-lg text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700 transition-colors"
+                      className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${
+                        location.pathname === item.path
+                          ? "bg-primary/10 text-primary dark:bg-primary/20" 
+                          : "text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700"
+                      }`}
                       onClick={toggleSidebar}
                     >
                       {item.icon}
